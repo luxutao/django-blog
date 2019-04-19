@@ -1,0 +1,11 @@
+[
+  {
+    "model": "website.tag",
+    "pk": 1,
+    "fields": {
+      "showname": "默认的",
+      "valuename": "default",
+      "introduction": "默认的初始化标签，新添加文章都将默认勾选此标签。"
+    }
+  }
+]

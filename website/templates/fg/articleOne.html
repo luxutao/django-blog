@@ -1,0 +1,69 @@
+{% extends "fg/base/base.html" %}
+{% block header_img %}
+<header class="masthead" style="background-image: url('/static/fg/img/contact-bg.jpg')" id="top">
+    {% endblock %}
+    {% block header %}
+    <h1>Tags</h1>
+                    <span class="subheading">The TAB page article index</span>
+    {% endblock %}
+{% block content %}
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-lg-offset-2">
+            <hr>
+            <div class="tags">
+                {% for tag,cl in tag_list %}
+                <a href="{% url 'fg_tta_one' %}?filter={{ tag.valuename }}" style="background-color:rgb({{ cl|join:',' }});">{{ tag.showname }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        {% include 'fg/base/go_back.html' %}
+        <div style="position:fixed;right:10px;bottom:10px">
+            <a href="{% url 'fg_tta_two' %}" class="btn btn-primary">
+                <i class="fa fa-fw fa-exchange"></i> Toggle Mode
+            </a>
+        </div>
+        <div class="col-lg-9 col-md-9 col-lg-offset-2">
+            {% for article in object_list %}
+            <div class="post-preview">
+                <a href="{% url 'fg_article_detail' article.id %}">
+                    <h4 class="post-title">
+                        {{ article.title }}
+                    </h4>
+                    {% if article.subtitle != article.title %}
+                    <h5 class="post-subtitle">
+                        {{ article.subtitle }}
+                    </h5>
+                    {% endif %}
+                    <div class="post-content-preview">
+                        {{ article.content|striptags|slice:'200' }}...
+                    </div>
+                </a>
+                <p class="post-meta">Posted by
+                    <a href="{% url 'about' %}">luxutaoooo</a>
+                    on {{ article.publish_time|date:"F d,Y" }}</p>
+            </div>
+            <hr>
+            {% endfor %}
+            <!-- Pager -->
+            <div class="clearfix">
+                {% if page_obj.has_previous %}
+                {% if page %}
+                <a href="?filter={{ page }}&page={{ page_obj.previous_page_number }}" class="btn btn-primary float-left">&larr; 上一页</a>
+                {% else %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary float-left">&larr; 上一页</a>
+                {% endif %}
+                {% endif %}
+                {% if page_obj.has_next %}
+                {% if page %}
+                <a class="btn btn-primary float-right" href="?filter={{ page }}&page={{ page_obj.next_page_number }}">下一页 &rarr;</a>
+                {% else %}
+                <a class="btn btn-primary float-right" href="?page={{ page_obj.next_page_number }}">下一页 &rarr;</a>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

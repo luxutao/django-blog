@@ -1,0 +1,55 @@
+{% extends "fg/base/base.html" %}
+{% block header_img %}
+<header class="masthead" style="background-image: url('/static/fg/img/about-bg.jpg')" id="top">
+    {% endblock %}
+    {% block header %}
+    <h1>luxutaoooo Blog</h1>
+                    <span class="subheading">TAB page article scrolling</span>
+    {% endblock %}
+{% block content %}
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-lg-offset-2">
+            <hr>
+            <div class="tags" style="margin-bottom:20px;">
+                {% for tag,cl in tag_list %}
+                <a href="#{{ tag.valuename }}"
+                   style="background-color:rgb({{ cl|join:',' }});">{{ tag.showname }}</a>
+                {% endfor %}
+            </div>
+            {% include 'fg/base/go_back.html' %}
+            <div style="position:fixed;right:10px;bottom:10px">
+            <a href="{% url 'fg_tta_one' %}" class="btn btn-primary">
+                <i class="fa fa-fw fa-exchange"></i> Toggle Mode
+            </a>
+        </div>
+            {% for tag in object_list %}
+            <div class="one-tag-list" id="{{ tag.valuename }}">
+			  	<span class="fa fa-tag listing-seperator">
+                    <span class="tag-text">{{ tag.showname }}</span>
+                </span>
+                {% for article in tag.website_article_related.all %}
+                {% if article.status == True %}
+                <div class="post-preview">
+                    <a href="{% url 'fg_article_detail' article.id %}">
+                        <h2 class="post-title">
+                            {{ article.title }}
+                        </h2>
+
+                        <h3 class="post-subtitle">
+                            {{ article.subtitle }}
+                        </h3>
+
+                    </a>
+                </div>
+                <hr>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+
+</div>
+{% endblock %}

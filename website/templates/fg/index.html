@@ -1,0 +1,133 @@
+{% extends "fg/base/base.html" %}
+{% block header_img %}
+<header class="masthead" style="background-image: url('/static/fg/img/home-bg.jpg')" id="top">
+    {% endblock %}
+{% block header %}
+<h1>luxutaoooo Blog</h1>
+<span class="subheading">一个专注于技术和科技的个人文章分享</span>
+{% endblock %}
+{% block content %}
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        {% include 'fg/base/go_back.html' %}
+        <div class="col-lg-9 col-md-9 mx-auto">
+            {% for article in object_list %}
+            <div class="post-preview">
+                <a href="{% url 'fg_article_detail' article.id %}">
+                    <h4 class="post-title">
+                        {{ article.title }}
+                    </h4>
+                    {% if article.subtitle != article.title %}
+                    <h5 class="post-subtitle">
+                        {{ article.subtitle }}
+                    </h5>
+                    {% endif %}
+                    <div class="post-content-preview">
+                        {{ article.content|striptags|slice:'200' }}...
+                    </div>
+                </a>
+                <p class="post-meta">Posted by
+                    <a href="{% url 'about' %}">luxutaoooo</a>
+                    on {{ article.publish_time|date:"F d,Y" }}</p>
+            </div>
+            <hr>
+            {% endfor %}
+            <!-- Pager -->
+            <div class="clearfix">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary float-left">&larr; 上一页</a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <a class="btn btn-primary float-right" href="?page={{ page_obj.next_page_number }}">下一页 &rarr;</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 sidebar-container">
+            <hr>
+            <section>
+                <h5>Tags</h5>
+                <div class="tags">
+                    {% for tag in tags %}
+                    <a href="{% url 'fg_tta_one' %}?filter={{ tag.valuename }}">{{ tag.showname }}</a>
+                    {% endfor %}
+                </div>
+            </section>
+            <section class="visible-md visible-lg">
+                    <hr><h5><a href="{% url 'about' %}">ABOUT ME</a></h5>
+                    <div class="short-about">
+                            <img src="/static/img/avatar.jpg">
+                            <p>写写代码，做做设计，<br>离开世界之前，一切都是过程</p>
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            <li>
+                                <a href="https://twitter.com/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="https://www.zhihu.com/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa  fa-stack-1x fa-inverse">知</i>
+                                    </span>
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <a target="_blank" href="https://weibo.com/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+
+
+                            <li>
+                                <a target="_blank" href="https://github.com/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </section>
+            <hr>
+            <h5>FRIENDS</h5>
+            <ul class="list-inline">
+
+                        <li><a href="http://mida.re/">乱序</a></li>
+
+                        <li><a href="http://qianduan.guru/">前端外刊评论</a></li>
+
+                        <li><a href="http://lingyu.wang/">天镶的博客</a></li>
+
+                        <li><a href="https://hmqk1995.github.io">Luke 的自留地</a></li>
+
+                        <li><a href="http://ebnbin.com/">Ebn's Blog</a></li>
+
+                        <li><a href="https://blog.smdcn.net">SmdCn's Blog</a></li>
+
+                        <li><a href="http://xieminis.me/">解旻的博客</a></li>
+
+                        <li><a href="http://dhong.co">DHong Say</a></li>
+
+                        <li><a href="https://ingf.github.io/">尹峰以为</a></li>
+
+                        <li><a href="https://wepiaofei.github.io/blog/">前端神盾局</a></li>
+
+                </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

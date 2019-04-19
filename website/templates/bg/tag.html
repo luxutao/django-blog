@@ -1,0 +1,79 @@
+{% extends "bg/base/base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">标签管理</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-7">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="glyphicon-tag glyphicon fa-fw"></i> 添加标签
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <form role="form" action="{% url 'bg_tag_create' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>{{ form.showname.label }}</label>
+                                <p class="help-block">{{ form.showname.help_text }}</p>
+                                {{ form.showname }}
+                            </div>
+                            <div class="form-group">
+                                <label>{{ form.valuename.label }}</label>
+                                <p class="help-block">{{ form.valuename.help_text }}</p>
+                                {{ form.valuename }}
+                            </div>
+                            <div class="form-group">
+                                <label>{{ form.introduction.label }}</label>
+                                <p class="help-block">{{ form.introduction.help_text }}</p>
+                                {{ form.introduction }}
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-block ">添加</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <!--<span class="pull-left"></span>-->
+                <!--<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>-->
+                <div class="clearfix">{% now "Y/m/d H:i:s" %}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="glyphicon-list  glyphicon fa-fw"></i> 标签列表
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    {% for tag in object_list %}
+                    {% if tag.valuename != 'default' %}
+                    <a class="list-group-item" data-toggle="collapse" href="#tag_{{ tag.valuename }}" aria-expanded="false"
+                       aria-controls="tag_{{ tag.valuename }}">
+                        {{ tag.showname }}
+                    </a>
+                    <div class="collapse" id="tag_{{ tag.valuename }}">
+                        <div class="well">
+                            <a href="{% url 'bg_tag_edit' tag.id %}" class="btn btn-primary">编辑</a>
+                            <a href="{% url 'bg_tag_delete' tag.id %}" class="btn btn-danger">删除</a>
+                            <a href="{% url 'bg_tta' %}?filter={{ tag.valuename }}" class="btn btn-success">查看</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a href="#" class="list-group-item">{{ tag.showname }}</a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

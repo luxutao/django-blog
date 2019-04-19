@@ -1,0 +1,73 @@
+{% extends "fg/base/base.html" %}
+{% block header_img %}
+<header class="masthead" style="background-image: url('/static/fg/img/post-bg.jpg')" id="top">
+    {% endblock %}
+{% block header %}
+<div class="tags">
+{% for tag in object.tag.all %}
+    <a href="{% url 'fg_tta_one' %}?filter={{ tag.valuename }}">{{ tag.showname }}</a>
+{% endfor %}
+</div>
+<h1>{{ object.title }}</h1>
+<h2 class="subheading">{{ object.subtitle }}</h2>
+<span class="meta">Posted by<a href="{% url 'about' %}"> luxutaoooo </a>on {{ object.publish_time|date:"F d,Y" }}</span>
+{% endblock %}
+{% block content %}
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <p>{{ object.content|safe|escape }}</p>
+            </div>
+        </div>
+        {% include 'fg/base/go_back.html' %}
+        <hr>
+        <div class="row" style="font-size:13px">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <form action="{% url 'fg_publish_comment' object.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="">邮箱地址：</label>
+                        <input type="text" class="form-control" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="">名称：</label>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="">发表评论：</label><br>
+                        <textarea name="content" id="" cols="50" rows="5"></textarea>
+                    </div>
+                    <input type="submit" class="btn" value="提交评论">
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="media-list">
+                    {% for comment in comment_object %}
+                    <li class="media" style="margin-bottom:20px">
+                        <div class="media-left">
+                            <span style="font-size:12px">{{ comment.floor }} #</span>
+                            <a href="#">
+                                <img class="media-object img-circle" src="{{ comment.avatar_url }}" alt="..."
+                                     style="width:64px;height:64px;">
+                            </a>
+                        </div>
+                        <div class="media-body" style="line-height:1.0">
+                            <h4 class="media-heading" style="font-size:13px">
+                                {{ comment.name }}
+                                <small>{{ comment.comment_time }}</small>
+                            </h4>
+                            <span style="font-size:10px">{{ comment.content }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock %}

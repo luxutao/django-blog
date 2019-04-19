@@ -1,0 +1,78 @@
+{% extends "bg/base/base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">发表文章</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-pencil fa-fw"></i> 发表文章
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <form role="form" action="" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>{{ form.title.label }}</label>
+                                <p class="help-block">{{ form.title.help_text }}</p>
+                                {{ form.title }}
+                            </div>
+                            <div class="form-group">
+                                <label>{{ form.subtitle.label }}</label>
+                                <p class="help-block">{{ form.subtitle.help_text }}</p>
+                                {{ form.subtitle }}
+                            </div>
+                            <div class="form-group">
+                                <label>{{ form.tag.label }}</label>
+                                <p class="help-block">{{ form.tag.help_text }}</p>
+                                {% for tag in form.tag.field.queryset %}
+                                {% if tag.id == 1 %}
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="id_tag_{{ tag.id }}" name="tag" value="{{ tag.id }}" checked="checked" onclick="return false"> {{ tag.showname }}
+                                </label>
+                                {% else %}
+                                <label class="checkbox-inline">
+                                    {% if tag in article.tag.all %}
+                                    <input type="checkbox" id="id_tag_{{ tag.id }}" name="tag" value="{{ tag.id }}" checked="checked"> {{ tag.showname }}
+                                    {% else %}
+                                    <input type="checkbox" id="id_tag_{{ tag.id }}" name="tag" value="{{ tag.id }}"> {{ tag.showname }}
+                                    {% endif %}
+                                </label>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <label>{{ form.content.label }}</label>
+                            <p class="help-block">{{ form.content.help_text }}</p>
+                            <div class="form-group" id="editor">
+                            </div>
+                            <div class="form-group">
+                                <label>HTML形式(更改无效)</label>
+                                {{ form.content }}
+                            </div>
+                            <div class="form-group">
+                                <label>{{ form.status.label }}</label>
+                                {{ form.status }}
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-block ">发表</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <!--<span class="pull-left"></span>-->
+                <!--<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>-->
+                <div class="clearfix">{% now "Y/m/d H:i:s" %}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
