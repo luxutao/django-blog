@@ -1,7 +1,6 @@
 ### 初始化数据
 ------------
-> 执行`python3 manage.py loaddata init_db`或者`python3 manage.py init_db`会
-初始化一个默认的标签。 
+> 创建相应的表,然后执行`python3 manage.py loaddata init_db`或者`python3 manage.py init_db`会初始化一个默认的标签。 
 
 ### 编辑器 
 ------------
